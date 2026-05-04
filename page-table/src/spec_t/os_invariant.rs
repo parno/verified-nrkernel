@@ -983,8 +983,6 @@ pub proof fn next_step_preserves_inv_tlb_1(
     }
     match step {
         os::Step::MapStart { core } => {
-            assert(forall|va, core| s2.is_inflight_protect_vaddr_core(va, core)
-                <== s1.is_inflight_protect_vaddr_core(va, core));
             x86_arch_spec_upper_bound();
             assert(s1.unmap_vaddr_set() =~= s2.unmap_vaddr_set()) by {
                 assert forall |vaddr| s1.is_unmap_vaddr(vaddr) implies
