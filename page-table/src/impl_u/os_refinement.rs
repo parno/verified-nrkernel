@@ -442,6 +442,17 @@ proof fn next_step_refines_hl_next_step(c: os::Constants, s1: os::State, s2: os:
                 step_ProtectEnd_refines(c, s1, s2, core, lbl);
                 assert(hlspec::next_step(c.interp(), s1.interp(c), s2.interp(c), step.interp(s1, s2, c, lbl), lbl));
             },
+            os::Step::Barrier { .. }
+            | os::Step::Invlpg { .. } => {
+                assert(s1.effective_mappings() =~= s2.effective_mappings()) by {
+                    assert(s1.inflight_protect_params() =~= s2.inflight_protect_params()) by {
+                        assert(forall|va, core| s1.is_inflight_protect_vaddr_core(va, core)
+                            <==> s2.is_inflight_protect_vaddr_core(va, core));
+                    };
+                };
+                extra_mappings_preserved(c, s1, s2);
+                assert(hlspec::next_step(c.interp(), s1.interp(c), s2.interp(c), hlspec::Step::Stutter, RLbl::Tau));
+            },
             _ => {
                 assert(s1.effective_mappings() =~= s2.effective_mappings()) by {
                     assert(s1.inflight_protect_params() =~= s2.inflight_protect_params()) by {
@@ -450,7 +461,7 @@ proof fn next_step_refines_hl_next_step(c: os::Constants, s1: os::State, s2: os:
                     };
                 };
                 extra_mappings_preserved(c, s1, s2);
-                assert(hlspec::next_step(c.interp(), s1.interp(c), s2.interp(c), step.interp(s1, s2, c, lbl), lbl.interp()));
+                assert(hlspec::next_step(c.interp(), s1.interp(c), s2.interp(c), hlspec::Step::Stutter, RLbl::Tau));
             }
         }
     }
