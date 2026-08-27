@@ -1537,6 +1537,10 @@ impl WrappedUnmapToken {
             final(tok)@.change_made == old(tok)@.change_made,
             final(tok).inv(),
     {
+        // This function only passes the rl2 invariant to the transition lemmas. Unfolding it
+        // introduces expensive page-walk quantifiers unrelated to deallocation.
+        hide(mmu::rl2::State::inv);
+
         let ghost state1 = tok.tok.st();
         let ghost core = tok.tok.core();
         let tracked mut osext_tok = tok.tok.get_osext_token();
