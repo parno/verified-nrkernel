@@ -2793,6 +2793,9 @@ pub proof fn lemma_pt_walk_result_vbase_equal(mem: PTMem, vaddr: usize)
     broadcast use lemma_iter_walk_equals_pt_walk;
     lemma_iter_walk_result_vbase_equal(mem, mem.pt_walk(vaddr).result().vaddr());
     lemma_iter_walk_result_vbase_equal(mem, vaddr);
+    assert(align_to_usize(vaddr, L1_ENTRY_SIZE) <= vaddr) by (bit_vector);
+    assert(align_to_usize(vaddr, L2_ENTRY_SIZE) <= vaddr) by (bit_vector);
+    assert(align_to_usize(vaddr, L3_ENTRY_SIZE) <= vaddr) by (bit_vector);
 }
 
 /// The indexing bits for page table walks up to length `len` match for both addresses. This is

@@ -1054,6 +1054,8 @@ pub proof fn next_step_preserves_inv_tlb_1(
             assert(s2.inv_tlb(c));
         },
         os::Step::MapOpStutter { core, .. } => {
+            broadcast use PTMem::lemma_disj_nonneg_prot_write;
+            assert(!rl1::step_WriteProtect(s1.mmu@, s2.mmu@, c.common, step.mmu_lbl(s1, lbl)));
             assert(forall|va, core| s2.is_inflight_protect_vaddr_core(va, core)
                 <==> s1.is_inflight_protect_vaddr_core(va, core));
             to_rl1::next_preserves_inv(s1.mmu, s2.mmu, c.common, step.mmu_lbl(s1, lbl));
