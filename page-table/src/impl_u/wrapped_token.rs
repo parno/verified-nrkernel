@@ -897,6 +897,7 @@ impl WrappedMapToken {
     }
 
     #[verifier::spinoff_prover]
+    #[verifier::rlimit(1000)]
     pub exec fn allocate(Tracked(tok): Tracked<&mut Self>, layer: usize) -> (res: MemRegionExec)
         requires
             !old(tok)@.change_made,
