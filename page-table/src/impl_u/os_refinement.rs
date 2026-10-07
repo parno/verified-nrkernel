@@ -2859,6 +2859,7 @@ proof fn step_ProtectEnd_refines(c: os::Constants, s1: os::State, s2: os::State,
     };
 }
 
+#[verifier::spinoff_prover]
 proof fn step_ProtectOpChange_refines(
     c: os::Constants,
     s1: os::State,

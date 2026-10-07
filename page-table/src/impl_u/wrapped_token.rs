@@ -1072,6 +1072,7 @@ impl WrappedMapToken {
     }
 
     #[verifier(spinoff_prover)]
+    #[verifier::rlimit(1000)]
     pub proof fn lemma_regions_derived_from_view_after_write(self, r: MemRegion, idx: usize, value: usize, change: bool)
         requires
             self.inv(),
@@ -2106,6 +2107,7 @@ impl WrappedProtectToken {
 
     // TODO: duplicated from WrappedMapToken
     #[verifier(spinoff_prover)]
+    #[verifier::rlimit(1000)]
     pub proof fn lemma_regions_derived_from_view_after_write(self, r: MemRegion, idx: usize, value: usize, change: bool)
         requires
             self.inv(),
