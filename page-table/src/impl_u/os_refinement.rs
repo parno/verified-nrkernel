@@ -2229,6 +2229,7 @@ proof fn step_MapStart_refines(c: os::Constants, s1: os::State, s2: os::State, c
             assert(hl_s1.mem == hl_s2.mem);
         } else {
             extra_mappings_submap(c, s1, s2, core);
+            assert(s1.applied_mappings().submap_of(s2.applied_mappings()));
             relevant_mem_preserved(c, s1, s2);
         }
 
